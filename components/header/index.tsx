@@ -59,12 +59,10 @@ const Header = ({ isErrorPage }: HeaderType) => {
           <a><h1 className="site-logo">AgriCommerce</h1></a>
         </Link>
         <nav ref={navRef} className={`site-nav ${menuOpen ? 'site-nav--open' : ''}`}>
-          {/* <Link href="/products">
-            <a>Products</a>
+          <Link href="#">
+            <a>Store</a>
           </Link>
-          <a href="#">Inspiration</a>
-          <a href="#">Rooms</a>
-          <button className="site-nav__btn"><p>Account</p></button> */}
+          <button className="site-nav__btn"><p>Account</p></button>
         </nav>
 
         <div className="site-header__actions">
@@ -74,15 +72,15 @@ const Header = ({ isErrorPage }: HeaderType) => {
               <input type="text" name="search" placeholder="Enter the product you are looking for" />
             </form>  
             <i onClick={() => setSearchOpen(!searchOpen)}  className="icon-search"></i>
-          </button>
-          <Link href="/cart">
+          </button> */}
+          {/* <Link href="/cart">
             <button className="btn-cart">
               <i className="icon-cart"></i>
               {cartItems.length > 0 && 
                 <span className="btn-cart__count">{cartItems.length}</span>
               }
             </button>
-          </Link>
+          </Link> */}
           <Link href="/login">
             <button className="site-header__btn-avatar"><i className="icon-avatar"></i></button>
           </Link>
@@ -90,7 +88,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
             onClick={() => setMenuOpen(true)} 
             className="site-header__btn-menu">
             <i className="btn-hamburger"><span></span></i>
-          </button> */}
+          </button>
         </div>
       </div>
     </header>
