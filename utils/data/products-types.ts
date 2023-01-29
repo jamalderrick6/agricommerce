@@ -1,22 +1,27 @@
 export const productsTypes = [
   {
     id: '1',
-    name: 'T-Shirts',
+    name: 'Grass Seed',
     count: '172',
   },
   {
     id: '2',
-    name: 'Sweatshirts',
+    name: 'Soil Food',
     count: '131',
   },
   {
     id: '3',
-    name: 'Tank Tops',
+    name: 'Lawn Fertilizer',
     count: '56',
   },
   {
     id: '4',
-    name: 'Dress shirts',
+    name: 'Weed Control & Prevention',
+    count: '8',
+  },
+  {
+    id: '5',
+    name: 'Organic Lawn Products',
     count: '8',
   },
 ];

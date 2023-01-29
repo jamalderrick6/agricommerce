@@ -59,28 +59,28 @@ const Header = ({ isErrorPage }: HeaderType) => {
           <a><h1 className="site-logo">AgriCommerce</h1></a>
         </Link>
         <nav ref={navRef} className={`site-nav ${menuOpen ? 'site-nav--open' : ''}`}>
-          <Link href="#">
-            <a>Store</a>
+          <Link href="/products">
+            <a>Products</a>
           </Link>
           <button className="site-nav__btn"><p>Account</p></button>
         </nav>
 
         <div className="site-header__actions">
-          {/* <button ref={searchRef} className={`search-form-wrapper ${searchOpen ? 'search-form--active' : ''}`}>
+          <button ref={searchRef} className={`search-form-wrapper ${searchOpen ? 'search-form--active' : ''}`}>
             <form className={`search-form`}>
               <i className="icon-cancel" onClick={() => setSearchOpen(!searchOpen)}></i>
               <input type="text" name="search" placeholder="Enter the product you are looking for" />
             </form>  
             <i onClick={() => setSearchOpen(!searchOpen)}  className="icon-search"></i>
-          </button> */}
-          {/* <Link href="/cart">
+          </button>
+          <Link href="/cart">
             <button className="btn-cart">
               <i className="icon-cart"></i>
               {cartItems.length > 0 && 
                 <span className="btn-cart__count">{cartItems.length}</span>
               }
             </button>
-          </Link> */}
+          </Link>
           <Link href="/login">
             <button className="site-header__btn-avatar"><i className="icon-avatar"></i></button>
           </Link>

@@ -12,6 +12,7 @@ const ProductsFilter = () => {
   const [filtersOpen, setFiltersOpen] = useState(false);
 
   const addQueryParams = () => {
+    console.log("on chne")
     // query params changes
   }
 

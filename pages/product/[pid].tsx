@@ -31,7 +31,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 }
 
 const Product = ({ product }: ProductPageType) => {
-  const [showBlock, setShowBlock] = useState('description');
+  const [showBlock, setShowBlock] = useState('reviews');
 
   return (
     <Layout>
@@ -46,11 +46,11 @@ const Product = ({ product }: ProductPageType) => {
 
           <div className="product-single__info">
             <div className="product-single__info-btns">
-              <button type="button" onClick={() => setShowBlock('description')} className={`btn btn--rounded ${showBlock === 'description' ? 'btn--active' : ''}`}>Description</button>
+              {/* <button type="button" onClick={() => setShowBlock('description')} className={`btn btn--rounded ${showBlock === 'description' ? 'btn--active' : ''}`}>Description</button> */}
               <button type="button" onClick={() => setShowBlock('reviews')} className={`btn btn--rounded ${showBlock === 'reviews' ? 'btn--active' : ''}`}>Reviews (2)</button>
             </div>
 
-            <Description show={showBlock === 'description'} />
+            {/* <Description show={showBlock === 'description'} /> */}
             <Reviews product={product} show={showBlock === 'reviews'} />
           </div>
         </div>

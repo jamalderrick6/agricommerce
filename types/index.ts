@@ -19,6 +19,7 @@ export type ReviewType = {
 export type ProductType = {
   id: string;
   name: string;
+  features: string[];
   thumb: string;
   price: string;
   count: number;

@@ -2,6 +2,7 @@ export const products = [
   {
     "id": "1",
     "name": "Crabgrass Preventer plus Green-Up Lawn Fertilizer",
+    "features": ["Fertilizer analysis: 21-0-3", "Use in the spring or fall", "Kills weeds down to the root", "Feeds lawns for up to 3 months", "Controls 250+ broadleaf weeds"],
     "price": 3000,
     "discount": 30,
     "quantityAvailable": 2,
@@ -24,6 +25,7 @@ export const products = [
   {
     "id": "2",
     "name": "Weed & Feed Lawn Fertilizer",
+    "features": ["Fertilizer analysis: 21-0-3", "Use in the spring or fall", "Kills weeds down to the root", "Feeds lawns for up to 3 months", "Controls 250+ broadleaf weeds"],
     "price": 3000,
     "quantityAvailable": 2,
     "category": "Weed & Feed Lawn Fertilizer",
@@ -45,6 +47,7 @@ export const products = [
   {
     "id": "3",
     "name": "Winter Survival Fall Lawn Fertilizer",
+    "features": ["Fertilizer analysis: 21-0-3", "Use in the spring or fall", "Kills weeds down to the root", "Feeds lawns for up to 3 months", "Controls 250+ broadleaf weeds"],
     "price": 3000,
     "quantityAvailable": 2,
     "category": "Weed & Feed Lawn Fertilizer",
@@ -66,6 +69,7 @@ export const products = [
   {
     "id": "4",
     "name": "Green-Up Lawn Fertilizer",
+    "features": ["Fertilizer analysis: 21-0-3", "Use in the spring or fall", "Kills weeds down to the root", "Feeds lawns for up to 3 months", "Controls 250+ broadleaf weeds"],
     "price": 3000,
     "quantityAvailable": 2,
     "category": "Weed & Feed Lawn Fertilizer",

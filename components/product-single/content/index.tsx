@@ -57,10 +57,17 @@ const Content = ({ product }: ProductContent) => {
         <h2 className="product__name">{product.name}</h2>
 
         <div className="product__prices">
-          <h4>${ product.currentPrice }</h4>
+          <h4>Ksh{ product.currentPrice }</h4>
           {product.discount &&
-            <span>${ product.price }</span>
+            <span>Ksh{ product.price }</span>
           }
+        </div>
+        <div className="product__features">
+          <ul>
+          {
+            product.features.map((feature, index) => <li key={index}>{feature}</li>)
+          }
+          </ul>
         </div>
       </div>
 

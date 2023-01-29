@@ -28,11 +28,7 @@ const Footer = () => {
             </ul>
             <ul>
               <li>Information</li>
-              <li><a href="#">Gift Cards</a></li>
-              <li><a href="#">Find a store</a></li>
               <li><a href="#">Newsletter</a></li>
-              <li><a href="#">Bacome a member</a></li>
-              <li><a href="#">Site feedback</a></li>
             </ul>
             <ul>
               <li>Contact</li>

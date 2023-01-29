@@ -24,7 +24,7 @@ const ProductItem = ({ discount, images, id, name, price, currentPrice }: Produc
       <div className="product__image">
         <button type="button" onClick={toggleFav} className={`btn-heart ${isFavourite ? 'btn-heart--active' : ''}`}><i className="icon-heart"></i></button>
 
-        <Link href='#'>
+        <Link href={`/product/${id}`}>
           <a>
             <img src={images ? images[0] : ''} alt="product" />
             {discount && 
@@ -40,7 +40,7 @@ const ProductItem = ({ discount, images, id, name, price, currentPrice }: Produc
           <h4>Kshs.{ currentPrice }</h4>
 
           {discount &&  
-            <span>${ price }</span>
+            <span>Ksh{ price }</span>
           }
         </div>
       </div>
