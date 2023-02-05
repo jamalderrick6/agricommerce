@@ -1,7 +1,6 @@
 import Layout from '../layouts/Main';
 import { useForm } from "react-hook-form";
-import { server } from '../utils/server'; 
-import { postData } from '../utils/services'; 
+import { loginUser } from './api/user';
 
 type LoginMail = {
   email: string;
@@ -11,13 +10,14 @@ type LoginMail = {
 const LoginPage = () => {
   const { register, handleSubmit, errors } = useForm();
 
-  const onSubmit = async (data: LoginMail) => {
-    const res = await postData(`${server}/api/login`, {
-      email: data.email,
-      password: data.password
-    });
-
-    console.log(res);
+  const onSubmit = async (payload: LoginMail) => {
+    const data = await loginUser(payload);
+    if([200,201].includes(data.response.status)){
+      localStorage.setItem('usertoken', data.json.token)
+      localStorage.setItem('username', data.json.user.name)
+    }else{
+      alert('Please enter correct credentials')
+    }
   };
 
   return (

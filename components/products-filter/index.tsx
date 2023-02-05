@@ -8,12 +8,20 @@ import productsTypes from './../../utils/data/products-types';
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
 
-const ProductsFilter = () => {
+const ProductsFilter = ({categories, setCategories}) => {
   const [filtersOpen, setFiltersOpen] = useState(false);
 
-  const addQueryParams = () => {
-    console.log("on chne")
-    // query params changes
+  const addQueryParams = (e) => {
+    const { name, checked } = e.target;
+    let cats = [...categories]
+    if(categories.includes(name)){
+      let index = categories.indexOf(name)
+      cats.splice(index, 1)
+      setCategories(cats)
+    }else{
+      cats.push(name)
+      setCategories(cats)
+    }
   }
 
   return (
@@ -29,10 +37,11 @@ const ProductsFilter = () => {
           <button type="button">Product type</button>
           <div className="products-filter__block__content">
             {productsTypes.map(type => (
-              <Checkbox 
+              <Checkbox
                 key={type.id} 
-                name="product-type" 
+                name={type.name}
                 label={type.name} 
+                // onChange = {handleChange}
               />
             ))}
           </div>
