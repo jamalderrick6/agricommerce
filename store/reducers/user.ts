@@ -12,6 +12,11 @@ type ProductType = {
   size: string;
 }
 
+type UserType = {
+  name: String;
+  token: String;
+}
+
 type ToggleFavType = {
   id: string;
 }
@@ -23,7 +28,8 @@ interface UserSliceTypes {
 
 const initialState = {
   user: {
-    name: 'Lucas Pulliese',
+    name: '',
+    token: '',
   },
   favProducts: [],
 } as UserSliceTypes
@@ -43,24 +49,11 @@ const userSlice = createSlice({
 
       remove(state.favProducts, id => id === action.payload.id);
     },
-    setUserLogged(state, action: PayloadAction<ProductType>) {
-      const index = state.favProducts.includes(action.payload.id);
+    setUserLogged(state, action: PayloadAction<UserType>) {
+      state.user['name'] = action.payload.name;
+      state.user['token'] = action.payload.token;
 
-      if(!index) {
-        state.favProducts.push(action.payload.id);
-
-        return {
-          ...state,
-          favProducts: state.favProducts
-        };
-      }
-
-      remove(state.favProducts, id => id === action.payload.id);
-      
-      return {
-        ...state,
-        favProducts: state.favProducts
-      };
+      return;
     },
   },
 })

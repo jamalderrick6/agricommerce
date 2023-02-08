@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useOnClickOutside from 'use-onclickoutside';
-import Logo from '../../assets/icons/logo';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { RootState } from 'store';
+import { setUserLogged } from 'store/reducers/user';
+import { Lock } from 'react-feather';
 
 type HeaderType = {
   isErrorPage?: Boolean;
@@ -12,7 +13,9 @@ type HeaderType = {
 
 const Header = ({ isErrorPage }: HeaderType) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const { cartItems } = useSelector((state: RootState)  => state.cart);
+  const { user } = useSelector((state: RootState) => state.user);
   const arrayPaths = ['/'];  
 
   const [onTop, setOnTop] = useState(( !arrayPaths.includes(router.pathname) || isErrorPage ) ? false : true);
@@ -48,6 +51,16 @@ const Header = ({ isErrorPage }: HeaderType) => {
     setSearchOpen(false);
   }
 
+  const logoutUser = (data: any) => {
+    dispatch(setUserLogged(
+      { 
+        name: '',
+        token: '',
+      }
+    ))
+    router.push('/login')
+  }
+
   // on click outside
   useOnClickOutside(navRef, closeMenu);
   useOnClickOutside(searchRef, closeSearch);
@@ -81,9 +94,22 @@ const Header = ({ isErrorPage }: HeaderType) => {
               }
             </button>
           </Link>
-          <Link href="/login">
-            <button className="site-header__btn-avatar"><i className="icon-avatar"></i></button>
-          </Link>
+          {
+            user.token?(
+              <a href="/user" className='welcome'>{`Welcome, ${user.name}`}</a>
+            ):(
+              <Link href="/login">
+              <button className="site-header__btn-avatar"><i className="icon-avatar"></i></button>
+            </Link>
+            )
+          }
+          {
+            user.token && (
+              <span onClick={logoutUser} className='logout'>
+              <a>Log Out</a>
+            </span>
+            )
+          }
           <button 
             onClick={() => setMenuOpen(true)} 
             className="site-header__btn-menu">

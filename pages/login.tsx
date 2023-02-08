@@ -1,6 +1,9 @@
 import Layout from '../layouts/Main';
 import { useForm } from "react-hook-form";
+import { useRouter } from 'next/router';
 import { loginUser } from './api/user';
+import { setUserLogged } from 'store/reducers/user';
+import { useDispatch, useSelector } from 'react-redux';
 
 type LoginMail = {
   email: string;
@@ -9,12 +12,23 @@ type LoginMail = {
 
 const LoginPage = () => {
   const { register, handleSubmit, errors } = useForm();
+  const dispatch = useDispatch();
+  let router= useRouter();
+
+  const saveUser = (data: any) => {
+    dispatch(setUserLogged(
+      { 
+        name: data.json.user.name,
+        token: data.json.token,
+      }
+    ))
+  }
 
   const onSubmit = async (payload: LoginMail) => {
     const data = await loginUser(payload);
     if([200,201].includes(data.response.status)){
-      localStorage.setItem('usertoken', data.json.token)
-      localStorage.setItem('username', data.json.user.name)
+      await saveUser(data)
+      router.push('/')
     }else{
       alert('Please enter correct credentials')
     }
