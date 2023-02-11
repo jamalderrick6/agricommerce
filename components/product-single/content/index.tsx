@@ -33,9 +33,9 @@ const Content = ({ product }: ProductContent) => {
   const addToCart = () => {
     const productToSave: ProductStoreType = { 
       id: product.id,
-      name: product.name,
-      thumb: product.images ? product.images[0] : '',
-      price: product.currentPrice,
+      name: product.attributes.name,
+      thumb: product.attributes.image.data ? `http://localhost:1337${product.attributes.image.data[0].attributes.url}` : '',
+      price: product.attributes.price,
       count: count,
       color: color,
       size: itemSize
@@ -54,20 +54,21 @@ const Content = ({ product }: ProductContent) => {
       <div className="product-content__intro">
         <h5 className="product__id">Product ID:<br></br>{product.id}</h5>
         <span className="product-on-sale">Sale</span>
-        <h2 className="product__name">{product.name}</h2>
+        <h2 className="product__name">{product.attributes.name}</h2>
 
         <div className="product__prices">
-          <h4>Ksh{ product.currentPrice }</h4>
+          <h4>Ksh{ product.attributes.price }</h4>
           {product.discount &&
-            <span>Ksh{ product.price }</span>
+            <span>Ksh{ product.attributes.price }</span>
           }
         </div>
         <div className="product__features">
-          <ul>
+          {product.attributes.description}
+          {/* <ul>
           {
             product.features.map((feature, index) => <li key={index}>{feature}</li>)
           }
-          </ul>
+          </ul> */}
         </div>
       </div>
 

@@ -16,12 +16,11 @@ const ProductsContent = ({ products }:any) => {
           {products.map((item: ProductTypeList)  => (
             <ProductItem 
               id={item.id} 
-              name={item.name}
-              price={item.price}
-              color={item.color}
-              currentPrice={item.currentPrice}
+              name={item.attributes.name}
+              price={item.attributes.price}
+              currentPrice={item.attributes.price}
               key={item.id}
-              images={item.images} 
+              images={item.attributes.image} 
             />
           ))}
         </section>

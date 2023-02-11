@@ -5,18 +5,20 @@ type GalleryProductType = {
 const Gallery = ({ images }: GalleryProductType) => {
   const featImage = images[0];
 
+  console.log("images", images)
+
   return (
     <section className="product-gallery">
       <div className="product-gallery__thumbs">
         {images.map(image => (
-          <div key={image} className="product-gallery__thumb">
-            <img src={image} alt="" />
+          <div key={image.attributes.name} className="product-gallery__thumb">
+            <img src={`http://localhost:1337${image.attributes.url}`} alt="" />
           </div>
         ))}
       </div>
 
       <div className="product-gallery__image">
-        <img src={featImage} alt="" />
+        <img src={`http://localhost:1337${featImage.attributes.url}`} alt="" />
       </div>
     </section>
   );

@@ -1,9 +1,20 @@
 import ProductsCarousel from './carousel';
 import useSwr from 'swr';
+import { useEffect, useState } from 'react';
+import { getProducts } from 'pages/api/products';
 
 const ProductsFeatured = () => {
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
-  const { data } = useSwr('/api/products', fetcher);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async() => {
+      const data = await getProducts();
+      if([200,201].includes(data.response.status)){
+        setProducts(data.json.data)
+      }
+    }
+    fetchProducts()
+  }, []);
 
   return (
     <section className="section section-products-featured">
@@ -13,7 +24,7 @@ const ProductsFeatured = () => {
           <a href="/products" className="btn btn--rounded btn--border">Show All</a>
         </header>
 
-        <ProductsCarousel products={data} />
+        <ProductsCarousel products={products} />
       </div>
     </section>
   )

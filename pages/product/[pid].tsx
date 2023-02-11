@@ -13,6 +13,7 @@ import { server } from '../../utils/server';
 
 // types
 import { ProductType } from 'types';
+import { getProductDetails } from 'pages/api/products';
 
 type ProductPageType = {
   product: ProductType;
@@ -20,8 +21,8 @@ type ProductPageType = {
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const pid = query.pid;
-  const res = await fetch(`${server}/api/product/${pid}`);
-  const product = await res.json();
+  const data = await getProductDetails(pid);
+  const product = data.json.data[0];
 
   return {
     props: {
@@ -32,6 +33,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 
 const Product = ({ product }: ProductPageType) => {
   const [showBlock, setShowBlock] = useState('reviews');
+  console.log("product", product)
 
   return (
     <Layout>
@@ -40,7 +42,7 @@ const Product = ({ product }: ProductPageType) => {
       <section className="product-single">
         <div className="container">
           <div className="product-single__content">
-            <Gallery images={product.images} />
+            <Gallery images={product.attributes.image.data} />
             <Content product={product} />
           </div>
 
@@ -51,7 +53,7 @@ const Product = ({ product }: ProductPageType) => {
             </div>
 
             {/* <Description show={showBlock === 'description'} /> */}
-            <Reviews product={product} show={showBlock === 'reviews'} />
+            {/* <Reviews product={product} show={showBlock === 'reviews'} /> */}
           </div>
         </div>
       </section>
