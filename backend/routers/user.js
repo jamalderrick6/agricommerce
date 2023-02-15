@@ -43,4 +43,18 @@ router.post("/users/logout", Auth, async (req, res) => {
   }
 });
 
+router.post("/update/user", async (req, res) => {
+  console.log("req", req.body);
+
+  const update = {
+    email: req.body.Email,
+    name: req.body.Name,
+    phone: req.body["Phone Number"],
+  };
+  const filter = { token: req.body.token };
+  const updatedDocument = await User.findOneAndUpdate(filter, update);
+
+  return res.status(200).send(updatedDocument);
+});
+
 module.exports = router;
