@@ -10,22 +10,27 @@ const Range = createSliderWithTooltip(Slider.Range);
 
 type CategoryTypes = {
   categories: String[];
-  setCategories: Function;
+  categoriesSelected: String[];
+  setCategoriesSelected: Function;
 };
 
-const ProductsFilter = ({ categories, setCategories }: CategoryTypes) => {
+const ProductsFilter = ({
+  categories,
+  categoriesSelected,
+  setCategoriesSelected,
+}: CategoryTypes) => {
   const [filtersOpen, setFiltersOpen] = useState(false);
 
   const addQueryParams = (e: any): void => {
     const { name, checked } = e.target;
-    let cats = [...categories];
-    if (categories.includes(name)) {
-      let index = categories.indexOf(name);
+    let cats = [...categoriesSelected];
+    if (categoriesSelected.includes(name)) {
+      let index = categoriesSelected.indexOf(name);
       cats.splice(index, 1);
-      setCategories(cats);
+      setCategoriesSelected(cats);
     } else {
       cats.push(name);
-      setCategories(cats);
+      setCategoriesSelected(cats);
     }
   };
 
@@ -49,11 +54,11 @@ const ProductsFilter = ({ categories, setCategories }: CategoryTypes) => {
         <div className="products-filter__block">
           <button type="button">Product type</button>
           <div className="products-filter__block__content">
-            {productsTypes.map((type) => (
+            {categories.map((type) => (
               <Checkbox
                 key={type.id}
-                name={type.name}
-                label={type.name}
+                name={type.attributes.Name}
+                label={type.attributes.Name}
                 // onChange = {handleChange}
               />
             ))}

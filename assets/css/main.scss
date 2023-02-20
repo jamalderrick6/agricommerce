@@ -2933,6 +2933,16 @@ h5 {
       margin-right: 11px;
     }
   }
+  .checkout__col-8 {
+    width: 100%;
+    @include breakpoint(tablet-lg) {
+      width: 85%;
+    }
+    @include breakpoint(desktop-lg) {
+      width: 73%;
+    }
+  }
+
   .checkout__col-6 {
     width: 100%;
     @include breakpoint(tablet-lg) {
@@ -2962,6 +2972,32 @@ h5 {
     @include breakpoint(desktop-lg) {
       width: 22%;
       margin-top: 0;
+    }
+  }
+
+  .payment__list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+
+    .payment {
+      height: 50px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10px;
+      border-radius: 20px;
+      border: 1px solid #d8d8d8;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+
+      &:hover,
+      &.selected {
+        color: #fff;
+        background-color: var(--color-orange);
+      }
     }
   }
 }

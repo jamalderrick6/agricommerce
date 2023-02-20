@@ -15,6 +15,9 @@
     "name": {
       "type": "string"
     },
+    "description": {
+      "type": "text"
+    },
     "price": {
       "type": "decimal"
     },
@@ -24,10 +27,11 @@
     "quantityAvailable": {
       "type": "integer"
     },
-    "category": {
+    "categories": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::category.category"
+      "relation": "oneToMany",
+      "target": "api::category.category",
+      "mappedBy": "product"
     },
     "image": {
       "type": "media",
@@ -39,9 +43,6 @@
         "videos",
         "audios"
       ]
-    },
-    "description": {
-      "type": "text"
     }
   }
 }

@@ -47,11 +47,10 @@ router.post("/update/user", async (req, res) => {
   console.log("req", req.body);
 
   const update = {
-    email: req.body.Email,
     name: req.body.Name,
     phone: req.body["Phone Number"],
   };
-  const filter = { token: req.body.token };
+  const filter = { email: req.body.Email };
   const updatedDocument = await User.findOneAndUpdate(filter, update);
 
   return res.status(200).send(updatedDocument);

@@ -1,32 +1,29 @@
-import ProductItem from '../../product-item';
-import ProductsLoading from './loading';
-import { ProductTypeList } from 'types';
+import ProductItem from "../../product-item";
+import ProductsLoading from "./loading";
+import { ProductTypeList } from "types";
 
-
-
-const ProductsContent = ({ products }:any) => {
+const ProductsContent = ({ products }: any) => {
+  console.log("products in content", products);
   return (
     <>
-      {!products && 
-        <ProductsLoading />
-      }
+      {!products && <ProductsLoading />}
 
-      {products &&
+      {products && (
         <section className="products-list">
-          {products.map((item: ProductTypeList)  => (
-            <ProductItem 
-              id={item.id} 
+          {products.map((item: ProductTypeList) => (
+            <ProductItem
+              id={item.id}
               name={item.attributes.name}
               price={item.attributes.price}
               currentPrice={item.attributes.price}
               key={item.id}
-              images={item.attributes.image} 
+              images={item.attributes.image}
             />
           ))}
         </section>
-      }
+      )}
     </>
   );
 };
-  
-export default ProductsContent
+
+export default ProductsContent;

@@ -2,13 +2,11 @@ import Layout from "../../layouts/Main";
 import { useSelector } from "react-redux";
 import CheckoutStatus from "../../components/checkout-status";
 import CheckoutItems from "../../components/checkout/items";
-import Modal from "../../components/Modal";
 import { RootState } from "store";
 import { useState } from "react";
 
 const CheckoutPage = () => {
   const [paymentMethod, setPaymentMethod] = useState("");
-  const [showModal, setShowModal] = useState(false);
 
   const priceTotal = useSelector((state: RootState) => {
     const cartItems = state.cart.cartItems;
@@ -128,30 +126,6 @@ const CheckoutPage = () => {
 
               <div className="checkout__col-4">
                 <div className="block">
-                  <h3 className="block__title">Payment method</h3>
-                  <ul className="round-options round-options--three">
-                    <li
-                      onClick={() => selectPayment("paypal")}
-                      className={
-                        "round-item" +
-                        (paymentMethod === "paypal" ? " selected" : "")
-                      }
-                    >
-                      <img src="/images/logos/paypal.png" alt="Paypal" />
-                    </li>
-                    <li
-                      onClick={() => selectPayment("creditcard")}
-                      className={
-                        "round-item" +
-                        (paymentMethod === "creditcard" ? " selected" : "")
-                      }
-                    >
-                      <img src="/images/logos/visa.png" alt="Visa" />
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="block">
                   <h3 className="block__title">Delivery method</h3>
                   <ul className="round-options round-options--two">
                     <li className="round-item round-item--bg">
@@ -186,13 +160,13 @@ const CheckoutPage = () => {
                 >
                   Continue shopping
                 </a>
-                <button
-                  onClick={() => setShowModal(true)}
+                <a
+                  href="/cart/payment"
                   type="button"
                   className="btn btn--rounded btn--yellow"
                 >
                   Proceed to payment
-                </button>
+                </a>
               </div>
             </div>
           </div>
