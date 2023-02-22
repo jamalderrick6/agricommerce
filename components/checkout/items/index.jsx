@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 
 const CheckoutItems = () => {
   const { cartItems } = useSelector(state => state.cart);
+  console.log("cart items", cartItems)
 
   return (
     <ul className="checkout-items">
@@ -13,7 +14,7 @@ const CheckoutItems = () => {
             </div>
 
             <div className="checkout-item__data">
-              <h3>{item.name}</h3>
+              <h3>{item.name}({item.count})</h3>
               <span>#{item.id}</span>
             </div>
           </div>

@@ -1,17 +1,23 @@
+import { useState } from "react";
+
 type GalleryProductType = {
-  images: string[]
-}
+  images: string[];
+};
 
 const Gallery = ({ images }: GalleryProductType) => {
-  const featImage = images[0];
+  const [featImage, setfeatImage] = useState(images[0]);
 
-  console.log("images", images)
+  console.log("images", images);
 
   return (
     <section className="product-gallery">
       <div className="product-gallery__thumbs">
-        {images.map(image => (
-          <div key={image.attributes.name} className="product-gallery__thumb">
+        {images.map((image) => (
+          <div
+            onClick={() => setfeatImage(image)}
+            key={image.attributes.name}
+            className="product-gallery__thumb"
+          >
             <img src={`http://localhost:1337${image.attributes.url}`} alt="" />
           </div>
         ))}
@@ -23,6 +29,5 @@ const Gallery = ({ images }: GalleryProductType) => {
     </section>
   );
 };
-  
+
 export default Gallery;
-  

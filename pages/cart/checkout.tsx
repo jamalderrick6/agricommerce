@@ -18,12 +18,6 @@ const CheckoutPage = () => {
     return totalPrice;
   });
 
-  const selectPayment = (method) => {
-    setPaymentMethod(method);
-  };
-
-  const makePayment = () => {};
-
   return (
     <>
       <Layout>
@@ -110,15 +104,6 @@ const CheckoutPage = () => {
                           placeholder="Phone number"
                         />
                       </div>
-
-                      <div className="form__col">
-                        <div className="select-wrapper select-form">
-                          <select>
-                            <option>Country</option>
-                            <option value="Argentina">Argentina</option>
-                          </select>
-                        </div>
-                      </div>
                     </div>
                   </form>
                 </div>
@@ -129,7 +114,7 @@ const CheckoutPage = () => {
                   <h3 className="block__title">Delivery method</h3>
                   <ul className="round-options round-options--two">
                     <li className="round-item round-item--bg">
-                      <p>Ksh500</p>
+                      <p>Ksh300</p>
                     </li>
                   </ul>
                 </div>
@@ -142,7 +127,7 @@ const CheckoutPage = () => {
 
                   <div className="checkout-total">
                     <p>Total cost</p>
-                    <h3>Ksh{priceTotal}</h3>
+                    <h3>Ksh{priceTotal + 300}</h3>
                   </div>
                 </div>
               </div>
