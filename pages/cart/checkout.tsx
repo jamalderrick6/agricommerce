@@ -1,22 +1,46 @@
 import Layout from "../../layouts/Main";
-import { useSelector } from "react-redux";
 import CheckoutStatus from "../../components/checkout-status";
 import CheckoutItems from "../../components/checkout/items";
-import { RootState } from "store";
 import { useState } from "react";
+import { useAuthContext } from "context/AuthContext";
+import UserAddresses from "components/user-profile/user-addresses";
+import { useRouter } from "next/router";
+import { message } from "antd";
 
 const CheckoutPage = () => {
-  const [paymentMethod, setPaymentMethod] = useState("");
+  const router = useRouter();
+  const { cartItems, userAddresses } = useAuthContext();
+  const [addressInView, setAddressInView] = useState(null);
 
-  const priceTotal = useSelector((state: RootState) => {
-    const cartItems = state.cart.cartItems;
+  const viewAddress = (addId) => {
+    console.log("addId", addId);
+    if (addId) {
+      let address = userAddresses.filter((address) => address.id === addId);
+      console.log("address", address);
+      setAddressInView(address);
+    } else {
+      setAddressInView(null);
+    }
+  };
+
+  const priceTotal = () => {
     let totalPrice = 0;
-    if (cartItems.length > 0) {
-      cartItems.map((item) => (totalPrice += item.price * item.count));
+    if (cartItems && cartItems.length > 0) {
+      cartItems.map(
+        (item) => (totalPrice += item.attributes.price * item.attributes.count)
+      );
     }
 
     return totalPrice;
-  });
+  };
+
+  const triggerPayment = () => {
+    if (addressInView) {
+      router.push("/cart/payment");
+    } else {
+      message.warning("Please select an address");
+    }
+  };
 
   return (
     <>
@@ -40,72 +64,12 @@ const CheckoutPage = () => {
                 </div>
 
                 <div className="block">
-                  <h3 className="block__title">Shipping information</h3>
-                  <form className="form">
-                    <div className="form__input-row form__input-row--two">
-                      <div className="form__col">
-                        <input
-                          className="form__input form__input--sm"
-                          type="text"
-                          placeholder="Email"
-                        />
-                      </div>
-
-                      <div className="form__col">
-                        <input
-                          className="form__input form__input--sm"
-                          type="text"
-                          placeholder="Address"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="form__input-row form__input-row--two">
-                      <div className="form__col">
-                        <input
-                          className="form__input form__input--sm"
-                          type="text"
-                          placeholder="First name"
-                        />
-                      </div>
-
-                      <div className="form__col">
-                        <input
-                          className="form__input form__input--sm"
-                          type="text"
-                          placeholder="City"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="form__input-row form__input-row--two">
-                      <div className="form__col">
-                        <input
-                          className="form__input form__input--sm"
-                          type="text"
-                          placeholder="Last name"
-                        />
-                      </div>
-
-                      <div className="form__col">
-                        <input
-                          className="form__input form__input--sm"
-                          type="text"
-                          placeholder="Postal code / ZIP"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="form__input-row form__input-row--two">
-                      <div className="form__col">
-                        <input
-                          className="form__input form__input--sm"
-                          type="text"
-                          placeholder="Phone number"
-                        />
-                      </div>
-                    </div>
-                  </form>
+                  <UserAddresses
+                    text="Select your Address"
+                    viewAddress={viewAddress}
+                    addressInView={addressInView}
+                    addresses={userAddresses}
+                  />
                 </div>
               </div>
 
@@ -127,7 +91,7 @@ const CheckoutPage = () => {
 
                   <div className="checkout-total">
                     <p>Total cost</p>
-                    <h3>Ksh{priceTotal + 300}</h3>
+                    <h3>Ksh{priceTotal() + 300}</h3>
                   </div>
                 </div>
               </div>
@@ -145,13 +109,13 @@ const CheckoutPage = () => {
                 >
                   Continue shopping
                 </a>
-                <a
-                  href="/cart/payment"
+                <button
+                  onClick={triggerPayment}
                   type="button"
                   className="btn btn--rounded btn--yellow"
                 >
                   Proceed to payment
-                </a>
+                </button>
               </div>
             </div>
           </div>

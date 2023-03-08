@@ -2,14 +2,17 @@ import { useSelector } from "react-redux";
 import CheckoutStatus from "../../components/checkout-status";
 import Item from "./item";
 import { RootState } from "store";
+import { useAuthContext } from "context/AuthContext";
 
 const ShoppingCart = () => {
-  const { cartItems } = useSelector((state: RootState) => state.cart);
+  const { cartItems } = useAuthContext();
 
   const priceTotal = () => {
     let totalPrice = 0;
-    if (cartItems.length > 0) {
-      cartItems.map((item) => (totalPrice += item.price * item.count));
+    if (cartItems && cartItems.length > 0) {
+      cartItems.map(
+        (item) => (totalPrice += item.attributes.price * item.attributes.count)
+      );
     }
 
     return totalPrice;
@@ -24,35 +27,30 @@ const ShoppingCart = () => {
         </div>
 
         <div className="cart-list">
-          {cartItems.length > 0 && (
+          {cartItems && cartItems.length > 0 && (
             <table>
               <tbody>
                 <tr>
                   <th style={{ textAlign: "left" }}>Product</th>
-                  <th>Color</th>
-                  <th>Size</th>
-                  <th>Ammount</th>
+                  <th>Amount</th>
                   <th>Price</th>
-                  <th></th>
                 </tr>
 
                 {cartItems.map((item) => (
                   <Item
                     key={item.id}
                     id={item.id}
-                    thumb={item.thumb}
-                    name={item.name}
-                    color={item.color}
-                    price={item.price}
-                    size={item.size}
-                    count={item.count}
+                    thumb={item.attributes.thumb}
+                    name={item.attributes.name}
+                    price={item.attributes.price}
+                    count={item.attributes.count}
                   />
                 ))}
               </tbody>
             </table>
           )}
 
-          {cartItems.length === 0 && <p>Nothing in the cart</p>}
+          {cartItems && cartItems.length === 0 && <p>Nothing in the cart</p>}
         </div>
 
         <div className="cart-actions">

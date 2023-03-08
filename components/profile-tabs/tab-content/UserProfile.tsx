@@ -1,24 +1,8 @@
-import { updateUser } from "pages/api/user";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "store";
 
-const UserProfile = () => {
-  const { user } = useSelector((state: RootState) => state.user);
+const UserProfile = ({ user, handleProfileUpdate }: any) => {
   console.log("user", user);
-  const [fields, setFields] = useState({
-    Name: "",
-    Email: "",
-    "Phone Number": "",
-  });
-
-  useEffect(() => {
-    setFields({
-      Name: user.name,
-      Email: user.email,
-      "Phone Number": user.phone,
-    });
-  }, [user]);
+  const [fields, setFields] = useState(user || {});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,18 +14,8 @@ const UserProfile = () => {
     setFields(values);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    let payload = { ...fields };
-    console.log("payload", payload);
-    payload["token"] = user.token;
-    const data = await updateUser(payload);
-    if ([200, 201].includes(data.response.status)) {
-      console.log("data", data);
-    } else {
-      alert("Profile not updated");
-    }
-  };
+  const handleSubmit = () => {};
+
   return (
     <section className="profile-content">
       <div className="profile-content__intro">

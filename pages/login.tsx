@@ -1,9 +1,12 @@
 import Layout from "../layouts/Main";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
-import { loginUser } from "./api/user";
-import { setUserLogged } from "store/reducers/user";
 import { useDispatch, useSelector } from "react-redux";
+import { useAuthContext } from "context/AuthContext";
+import { useState } from "react";
+import { API } from "utils/constant";
+import { setToken } from "utils/helpers";
+import { Alert, message, Spin } from "antd";
 
 type LoginMail = {
   email: string;
@@ -12,27 +15,45 @@ type LoginMail = {
 
 const LoginPage = () => {
   const { register, handleSubmit, errors } = useForm();
+  const { setUser } = useAuthContext();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const dispatch = useDispatch();
   let router = useRouter();
 
-  const saveUser = (data: any) => {
-    dispatch(
-      setUserLogged({
-        name: data.json.user.name,
-        email: data.json.user.email,
-        phone: data.json.user.phone,
-        token: data.json.token,
-      })
-    );
-  };
+  const onSubmit = async (values: LoginMail) => {
+    setIsLoading(true);
+    try {
+      const value = {
+        identifier: values.email,
+        password: values.password,
+      };
+      const response = await fetch(`${API}/auth/local`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(value),
+      });
 
-  const onSubmit = async (payload: LoginMail) => {
-    const data = await loginUser(payload);
-    if ([200, 201].includes(data.response.status)) {
-      await saveUser(data);
-      router.push("/");
-    } else {
-      alert("Please enter correct credentials");
+      const data = await response.json();
+      if (data?.error) {
+        throw data?.error;
+      } else {
+        // set the token
+        setToken(data.jwt);
+
+        // set the user
+        setUser(data.user);
+
+        message.success(`Welcome back ${data.user.username}!`);
+        router.push("/");
+      }
+    } catch (error) {
+      console.error(error);
+      setError(error?.message ?? "Something went wrong!");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -40,6 +61,15 @@ const LoginPage = () => {
     <Layout>
       <section className="form-page">
         <div className="container">
+          {error ? (
+            <Alert
+              className="alert_error"
+              message={error}
+              type="error"
+              closable
+              afterClose={() => setError("")}
+            />
+          ) : null}
           <div className="form-block">
             <h2 className="form-block__title">Log in</h2>
             <form className="form" onSubmit={handleSubmit(onSubmit)}>
@@ -121,7 +151,7 @@ const LoginPage = () => {
                 type="submit"
                 className="btn btn--rounded btn--yellow btn-submit"
               >
-                Sign in
+                Sign in {isLoading && <Spin size="small" />}
               </button>
 
               <p className="form__signup-link">

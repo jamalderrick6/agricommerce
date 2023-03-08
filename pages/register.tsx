@@ -5,9 +5,20 @@ import { registerUser, loginUser } from "./api/user";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserLogged } from "store/reducers/user";
 import { useRouter } from "next/router";
+import { useAuthContext } from "context/AuthContext";
+import { API } from "utils/constant";
+import { Alert, message, Spin } from "antd";
+import { setToken } from "utils/helpers";
 
 const RegisterPage = () => {
-  const [values, setValues] = useState({ name: "", email: "", password: "" });
+  const { setUser } = useAuthContext();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [values, setValues] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -19,36 +30,53 @@ const RegisterPage = () => {
     setValues(objValues);
   };
 
-  const saveUser = (data: any) => {
-    dispatch(
-      setUserLogged({
-        name: data.json.user.name,
-        token: data.json.token,
-      })
-    );
-  };
-
   const createUser = async (e) => {
     e.preventDefault();
-    const data = await registerUser(values);
-
-    if ([200, 201].includes(data.response.status)) {
-      const data = await loginUser({
-        email: values.email,
-        password: values.password,
+    setIsLoading(true);
+    try {
+      const response = await fetch(`${API}/auth/local/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
       });
-      if ([200, 201].includes(data.response.status)) {
-        await saveUser(data);
+
+      const data = await response.json();
+      if (data?.error) {
+        throw data?.error;
+      } else {
+        // set the token
+        setToken(data.jwt);
+
+        // set the user
+        setUser(data.user);
+
+        message.success(`Welcome to Agricommerce ${data.user.username}!`);
+
         router.push("/");
       }
-    } else {
-      alert("User already exists!");
+    } catch (error) {
+      console.error(error);
+      setError(error?.message ?? "Something went wrong!");
+    } finally {
+      setIsLoading(false);
     }
   };
+
   return (
     <Layout>
       <section className="form-page">
         <div className="container">
+          {error ? (
+            <Alert
+              className="alert_error"
+              message={error}
+              type="error"
+              closable
+              afterClose={() => setError("")}
+            />
+          ) : null}
           <div className="form-block">
             <h2 className="form-block__title">
               Create an account and discover the benefits
@@ -56,8 +84,8 @@ const RegisterPage = () => {
             <form className="form" onSubmit={createUser}>
               <div className="form__input-row">
                 <input
-                  name="name"
-                  value={values.name}
+                  name="username"
+                  value={values.username}
                   onChange={handleChange}
                   className="form__input"
                   placeholder="Full Name"
@@ -110,7 +138,7 @@ const RegisterPage = () => {
                 type="submit"
                 className="btn btn--rounded btn--yellow btn-submit"
               >
-                Sign up
+                Sign up {isLoading && <Spin size="small" />}
               </button>
 
               <p className="form__signup-link">

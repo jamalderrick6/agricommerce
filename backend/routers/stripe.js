@@ -15,7 +15,6 @@ router.post("/payment", cors(), async (req, res) => {
       confirm: true,
     });
 
-    console.log("Payment message", payment.raw.message);
     res.status(200).send({
       message: "Payment Successful",
       success: false,

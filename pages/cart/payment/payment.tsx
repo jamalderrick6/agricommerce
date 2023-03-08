@@ -6,20 +6,39 @@ import { useEffect, useState } from "react";
 import { RootState } from "store";
 import { useSelector } from "react-redux";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
+import { useAuthContext } from "context/AuthContext";
+import { Spin } from "antd";
+import { createOrder } from "pages/api/order";
+import { useRouter } from "next/router";
+import { DeleteEntry } from "pages/api/cart";
 
 const PaymentSection = () => {
   const stripe = useStripe();
+  let router = useRouter();
   const elements = useElements();
   const [paymentMethod, setPaymentMethod] = useState("mpesa");
   const [paymentStatus, setPaymentStatus] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const { cartItems, setUserCartItems } = useAuthContext();
+  console.log("cart items", cartItems);
 
   const handlePayment = () => {
     setPaymentStatus("pending");
+    setIsLoading(true);
     if (paymentMethod === "visa") {
       handleSubmit();
     }
+  };
+
+  const addOrder = async () => {
+    let payload = {
+      status: "Pending Pickup",
+      items: cartItems,
+      price: priceTotal(),
+    };
+    await createOrder(payload);
   };
 
   const handleSubmit = async () => {
@@ -34,7 +53,6 @@ const PaymentSection = () => {
 
     const card = elements.getElement(CardElement);
     const result = await stripe.createPaymentMethod({ type: "card", card });
-    console.log("rsult", result);
 
     if (result.error) {
       // Show error to your customer.
@@ -48,7 +66,7 @@ const PaymentSection = () => {
         },
       };
       let payload = {
-        amount: priceTotal * 100,
+        amount: priceTotal() * 100,
         id: result.paymentMethod.id,
       };
       postOptions.body = JSON.stringify(payload);
@@ -61,22 +79,38 @@ const PaymentSection = () => {
       if ([200, 201].includes(response.status)) {
         console.log("Successful Payment");
         setPaymentStatus("success");
+        addOrder();
+        deleteEntries();
+        setIsLoading(false);
       } else {
         console.log("json", json);
         setPaymentStatus("failed");
         setErrorMessage(json.message);
+        setIsLoading(false);
       }
     }
   };
 
-  const priceTotal = useSelector((state: RootState) => {
-    const cartItems = state.cart.cartItems;
+  const deleteEntries = async () => {
+    cartItems.forEach(async (item) => {
+      await DeleteEntry(item.id);
+    });
+    setUserCartItems([]);
+  };
+
+  const priceTotal = () => {
     let totalPrice = 0;
-    if (cartItems.length > 0) {
-      cartItems.map((item) => (totalPrice += item.price * item.count));
+    if (cartItems && cartItems.length > 0) {
+      cartItems.map(
+        (item) => (totalPrice += item.attributes.price * item.attributes.count)
+      );
     }
     return totalPrice;
-  });
+  };
+
+  const goToOrders = () => {
+    router.push("/orders");
+  };
 
   return (
     <>
@@ -138,11 +172,11 @@ const PaymentSection = () => {
                   <MpesaForm
                     phoneNumber={phoneNumber}
                     setPhoneNumber={(e) => setPhoneNumber(e.target.value)}
-                    priceTotal={priceTotal + 300}
+                    priceTotal={priceTotal() + 300}
                   />
                 ) : paymentMethod === "visa" ? (
                   <VisaForm
-                    priceTotal={priceTotal + 300}
+                    priceTotal={priceTotal() + 300}
                     paymentStatus={paymentStatus}
                     errorMessage={errorMessage}
                   />
@@ -166,11 +200,16 @@ const PaymentSection = () => {
                 </a>
                 <button
                   disabled={paymentMethod === "visa" && !stripe}
-                  onClick={handlePayment}
+                  onClick={
+                    paymentStatus === "success" ? goToOrders : handlePayment
+                  }
                   type="button"
                   className="btn btn--rounded btn--yellow"
                 >
-                  Pay Kshs. {priceTotal + 300}
+                  {paymentStatus === "success"
+                    ? "View Orders"
+                    : `Pay Kshs. ${priceTotal() + 300}`}
+                  {isLoading && <Spin size="small" />}
                 </button>
               </div>
             </div>
