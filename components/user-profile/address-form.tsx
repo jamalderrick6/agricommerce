@@ -1,8 +1,9 @@
 import { message } from "antd";
-import { addAddress } from "pages/api/address";
+import { useAuthContext } from "context/AuthContext";
+import { addAddress, DeleteAddress } from "pages/api/address";
 import { useEffect, useState } from "react";
 
-const AddressForm = ({ addressInView }) => {
+const AddressForm = ({ addressInView, setAddressInView }) => {
   const [values, setValues] = useState({
     email: "",
     address: "",
@@ -13,6 +14,7 @@ const AddressForm = ({ addressInView }) => {
     phone: "",
   });
   const [emptyFields, setEmptyFields] = useState([]);
+  const { userAddresses, setUserAddresses } = useAuthContext();
 
   useEffect(() => {
     console.log("address in view", addressInView);
@@ -48,18 +50,39 @@ const AddressForm = ({ addressInView }) => {
     }
   };
 
-  const createAddress = async (e) => {
-    e.preventDefault();
+  const createAddress = async () => {
     let val = await checkEmptyFields();
 
     if (!val) {
-      await addAddress(values);
+      try {
+        const data = await addAddress(values);
+        let addresses = [...userAddresses];
+        addresses.push(data.data);
+        setUserAddresses(addresses);
+      } catch (err) {
+        console.error(error);
+      }
     }
   };
+
+  const deleteAddress = async (e) => {
+    e.preventDefault();
+    try {
+      await DeleteAddress(addressInView[0].id);
+      let addresses = [...userAddresses];
+      let index = addresses.findIndex((x) => x.id === addressInView[0].id);
+      addresses.splice(index, 1);
+      setUserAddresses(addresses);
+      setAddressInView(null);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div className="block">
       <h3 className="block__title">Address</h3>
-      <form onSubmit={createAddress} className="form">
+      <form className="form">
         <div className="form__input-row form__input-row--two">
           <div className="form__col">
             <input
@@ -165,9 +188,19 @@ const AddressForm = ({ addressInView }) => {
             />
           </div>
         </div>
-        <button type="submit" className="btn btn--rounded btn--yellow">
+        <button
+          onClick={createAddress}
+          type="submit"
+          className="btn btn--rounded btn--yellow"
+        >
           Save
         </button>
+
+        {addressInView ? (
+          <button onClick={deleteAddress} className="btn btn--rounded btn--red">
+            Delete
+          </button>
+        ) : null}
       </form>
     </div>
   );

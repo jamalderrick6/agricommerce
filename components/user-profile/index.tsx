@@ -40,7 +40,11 @@ const UserProfile = () => {
             />
           </div>
           <div className="grid">
-            <AddressForm addressInView={addressInView} user={user} />
+            <AddressForm
+              addressInView={addressInView}
+              user={user}
+              setAddressInView={setAddressInView}
+            />
           </div>
         </div>
       </div>

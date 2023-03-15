@@ -22,3 +22,22 @@ export const addAddress = async (payload) => {
         return data
       }
   };
+
+
+  export const DeleteAddress = async (id) => {
+    const response = await fetch(`${API}/addresses/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `${BEARER} ${authToken}`
+      }
+    });
+
+    const data = await response.json();
+    if (data?.error) {
+      throw data?.error;
+    } else {
+      message.success(`Address deleted successfully`);
+      return data
+    }
+};

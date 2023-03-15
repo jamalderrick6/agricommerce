@@ -3380,3 +3380,100 @@ h5 {
     }
   }
 }
+
+.receipt__container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #ffff;
+  z-index: 1000;
+  padding: 20px;
+  width: 800px;
+
+  .buttons {
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    svg {
+      cursor: pointer;
+    }
+  }
+  .receipt {
+    padding: 20px;
+    .header--sections {
+      display: flex;
+      justify-content: space-between;
+      height: 280px;
+
+      .section {
+        width: 500px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+
+        .company {
+          font-size: 25px;
+          font-weight: bold;
+        }
+
+        .addresses {
+          display: flex;
+          font-size: 14px;
+
+          .address_from,
+          .address_to {
+            display: flex;
+            flex-direction: column;
+            row-gap: 5px;
+          }
+        }
+
+        .order_No {
+          font-size: 16px;
+          font-weight: 600;
+        }
+
+        .order--details {
+          display: flex;
+          flex-direction: column;
+          row-gap: 5px;
+          padding: 20px;
+          width: fit-content;
+          border-radius: 45px;
+          background-color: rgba(251, 176, 59, 0.8);
+          color: #fff;
+
+          div {
+            display: flex;
+            column-gap: 10px;
+
+            span {
+              font-weight: 600;
+            }
+          }
+        }
+      }
+    }
+
+    .items__shipped {
+      display: flex;
+      column-gap: 10px;
+      flex-direction: column;
+    }
+
+    .delivery--details {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 50px;
+      font-weight: bold;
+      row-gap: 10px;
+
+      span {
+        font-weight: bold;
+      }
+    }
+  }
+}

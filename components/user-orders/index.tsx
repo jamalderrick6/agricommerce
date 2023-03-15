@@ -43,6 +43,7 @@ const UserOrders = () => {
                 <OrderItem
                   id={order.id}
                   orderStatus={order.attributes.status}
+                  lastUpdatedAt={order.attributes.updatedAt}
                   orderItems={order.attributes.items}
                   orderTotal={order.attributes.price}
                 />
