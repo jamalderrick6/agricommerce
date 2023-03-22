@@ -2688,6 +2688,12 @@ h5 {
       .order--items {
         max-width: 700px;
         width: 100%;
+
+        tbody {
+          span {
+            font-weight: bold;
+          }
+        }
       }
 
       .order--summary {
@@ -3413,6 +3419,10 @@ h5 {
         flex-direction: column;
         row-gap: 10px;
 
+        &:nth-child(2) {
+          align-items: flex-end;
+        }
+
         .company {
           font-size: 25px;
           font-weight: bold;
@@ -3421,12 +3431,17 @@ h5 {
         .addresses {
           display: flex;
           font-size: 14px;
+          column-gap: 40px;
 
           .address_from,
           .address_to {
             display: flex;
             flex-direction: column;
             row-gap: 5px;
+
+            span:nth-child(1) {
+              font-weight: bold;
+            }
           }
         }
 
@@ -3473,6 +3488,108 @@ h5 {
 
       span {
         font-weight: bold;
+      }
+    }
+  }
+}
+
+.reports-content {
+  display: flex;
+  height: 100%;
+  column-gap: 30px;
+  .reports {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    width: 500px;
+
+    .report {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9px;
+      border: 1px solid #d8d8d8;
+      padding: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+
+      &:hover,
+      &.selected {
+        background-color: #f00;
+        color: #fff;
+        border: none;
+      }
+    }
+  }
+
+  .order-section {
+    display: block;
+    width: 100%;
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      row-gap: 10px;
+
+      .filter__select {
+        display: flex;
+        align-items: center;
+        column-gap: 10px;
+      }
+
+      .actions {
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+        align-items: center;
+        .card {
+          width: 180px;
+          height: 180px;
+          background-color: #fff;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-between;
+          border: 1px solid #d8d8d8;
+          padding: 20px;
+          font-size: 14px;
+
+          span:nth-child(1) {
+            font-weight: bold;
+          }
+
+          span:nth-child(2) {
+            font-size: 70px;
+            font-weight: bold;
+          }
+        }
+
+        .view--button {
+          background-color: #007fff;
+          color: #fff;
+          height: 50px;
+          border-radius: 5px;
+          width: 300px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          &:hover {
+            background-color: #0072e5;
+          }
+        }
+
+        .download--button {
+          height: 50px;
+          width: 300px;
+          border-radius: 5px;
+
+          &:hover {
+            background-color: #0a2540;
+            color: #fff;
+          }
+        }
       }
     }
   }

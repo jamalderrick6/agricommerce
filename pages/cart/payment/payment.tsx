@@ -11,6 +11,7 @@ import { Spin } from "antd";
 import { createOrder } from "pages/api/order";
 import { useRouter } from "next/router";
 import { DeleteEntry } from "pages/api/cart";
+import { UpdateProduct } from "pages/api/products";
 
 const PaymentSection = () => {
   const stripe = useStripe();

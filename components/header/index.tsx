@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import useOnClickOutside from "use-onclickoutside";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { RootState } from "store";
 import { removeToken } from "utils/helpers";
 import { useAuthContext } from "context/AuthContext";
 
@@ -123,6 +122,10 @@ const Header = ({ isErrorPage }: HeaderType) => {
                 <i className="icon-avatar"></i>
               </button>
             </Link>
+          )}
+
+          {user && user.is_staff && (
+            <a href="/reports" className="welcome">{`View Reports`}</a>
           )}
           {user && (
             <span onClick={logoutUser} className="logout">

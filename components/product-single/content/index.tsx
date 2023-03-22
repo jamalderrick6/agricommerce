@@ -42,6 +42,7 @@ const Content = ({ product }: ProductContent) => {
 
   const addToCart = async () => {
     const productToSave: ProductStoreType = {
+      product_id: product.id,
       name: product.attributes.name,
       thumb: product.attributes.image.data
         ? `http://localhost:1337${product.attributes.image.data[0].attributes.url}`

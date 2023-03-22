@@ -19,7 +19,7 @@ const User = () => {
       const response = await fetch(`${API}/users/${user.id}`, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json",<html
           // set the auth token to the user's jwt
           Authorization: `Bearer ${getToken()}`,
         },

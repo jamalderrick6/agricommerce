@@ -840,6 +840,11 @@ json-parse-even-better-errors@^2.3.0:
   resolved "https://registry.yarnpkg.com/json-parse-even-better-errors/-/json-parse-even-better-errors-2.3.1.tgz#7c47805a94319928e05777405dc12e1f7a4ee02d"
   integrity sha512-xyFwyhro/JEof6Ghe2iz2NcXoj2sloNsWr/XsERDK/oiPCfaNhl5ONfp+jQdAZRQQ0IJWNzH9zIZF7li91kh2w==
 
+json-to-csv-export@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/json-to-csv-export/-/json-to-csv-export-2.1.1.tgz#a09dfb7a44f7cc2949f391672dbfe4fadf39be58"
+  integrity sha512-JQLYqGfaJP4dVV0zIxH6RmHOdnJ32Qch3yDxDtWQy8KsOv73SthVRo38ANXckJxl/WUfGYvvtOlVwPURMTWqlA==
+
 json2mq@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/json2mq/-/json2mq-0.2.0.tgz#b637bd3ba9eabe122c83e9720483aeb10d2c904a"

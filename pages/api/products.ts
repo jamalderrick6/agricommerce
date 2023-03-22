@@ -1,3 +1,5 @@
+import { API } from "utils/constant";
+
 type RegisterPayload = {
   name: String;
   email: String;
@@ -31,6 +33,23 @@ export const getProductDetails = async (pid) => {
   const response = await fetch(`${productDetailsRoute}${pid}`, getOptions);
   const json = await response.json();
   return { response: response, json: json };
+};
+
+export const UpdateProduct = async (id, payload) => {
+  const response = await fetch(`${API}/products/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({data:payload}),
+  });
+
+  const data = await response.json();
+  if (data?.error) {
+    throw data?.error;
+  } else {
+    return data
+  }
 };
 
 

@@ -43,6 +43,9 @@
         "videos",
         "audios"
       ]
+    },
+    "stock_needed": {
+      "type": "boolean"
     }
   }
 }
