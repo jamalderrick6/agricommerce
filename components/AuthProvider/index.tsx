@@ -37,8 +37,8 @@ const AuthProvider = ({ children }) => {
         headers: { Authorization: `${BEARER} ${token}` },
       });
       const data = await response.json();
-
-      setCartItems(data.data);
+      const userCrt = data.data.filter((crt) => crt.attributes.user_id === userData.id)
+      setCartItems(userCrt);
     } catch (error) {
       console.error(error);
       message.error("Error While Fetching User Cart Items");
@@ -55,7 +55,9 @@ const AuthProvider = ({ children }) => {
       });
       const data = await response.json();
 
-      setUserAddresses(data.data);
+      const useraddresses = data.data.filter((add) => add.attributes.user_id === userData.id)
+
+      setUserAddresses(useraddresses);
     } catch (error) {
       console.error(error);
       message.error("Error While Fetching User Cart Items");

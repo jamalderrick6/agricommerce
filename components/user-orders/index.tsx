@@ -7,6 +7,7 @@ import { message } from "antd";
 
 const UserOrders = () => {
   const [orders, setOrders] = useState([]);
+  const { user } = useAuthContext();
   const token = getToken();
   const fetchUserOrders = async () => {
     try {
@@ -15,7 +16,9 @@ const UserOrders = () => {
       });
       const data = await response.json();
 
-      setOrders(data.data);
+      const userOrds = data.data.filter((ord) => ord.attributes.user_id === user.id)
+
+      setOrders(userOrds);
     } catch (error) {
       console.error(error);
       message.error("Error While Fetching User Orders");
